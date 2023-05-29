@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserJob;
+
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -26,13 +28,15 @@ public function index()
 public function add(Request $request)
 {
     $rules = [
-        'Student_ID' => 'required|max:3',
+        'Student_ID' => 'required|numeric|min:1|not_in:0',
         'Student_FName' => 'required|max:25',
         'Student_LName' => 'required|max:25',
+        'Course_ID' => 'required|numeric|min:1|not_in:0',
     ];
 
     $this->validate($request,$rules);
 
+    $userjob = UserJob::findOrFail($request->Course_ID);
     $user = User::create($request->all());
 
     return $this->successResponse($user, Response::HTTP_CREATED);
@@ -49,11 +53,15 @@ public function delete($id)
 public function update(Request $request,$id)
 {
     $rules = [
-        'Student_ID' => 'required|max:3',
+        'Student_ID' => 'required|numeric|min:1|not_in:0',
         'Student_FName' => 'required|max:25',
         'Student_LName' => 'required|max:25',
+        'Course_ID' => 'required|numeric|min:1|not_in:0',
     ]; 
+
     $this->validate($request, $rules);
+
+    $userjob = UserJob::findOrFail($request->Course_ID);
     $user = User::findOrFail($id);
     $user->fill($request->all()); 
     

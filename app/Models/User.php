@@ -8,7 +8,7 @@ class User extends Model{
 protected $table = 'students';
 
 protected $fillable = [
-'Student_ID', 'Student_FName', 'Student_LName'
+'Student_ID', 'Student_FName', 'Student_LName', 'Course_ID'
 ];
 
 public $timestamps = false;
